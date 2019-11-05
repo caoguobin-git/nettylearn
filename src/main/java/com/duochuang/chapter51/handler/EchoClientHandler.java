@@ -21,9 +21,10 @@ public class EchoClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ByteBuf msg = null;
+        ByteBuf msg = Unpooled.copiedBuffer(ECHO_REQ.getBytes());
         for (int i = 0; i < 100; i++) {
-            msg = Unpooled.copiedBuffer(ECHO_REQ.getBytes());
+            //调用retain()方法，否则完成之后会释放该对象，不能完成后续操作
+            msg.retain();
             ctx.writeAndFlush(msg);
         }
     }
