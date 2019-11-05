@@ -49,7 +49,7 @@ public class HttpFileServer {
                                     .addLast("fileServerHandler",new HttpFileServerHandler(url));
                         }
                     });
-            ChannelFuture f = bootstrap.bind("192.168.18.7", port).sync();
+            ChannelFuture f = bootstrap.bind("192.168.18.5", port).sync();
             System.out.println("HTTP 文件目录启动，网址是"+"http://192.168.18.7:"+port+url.substring(url.indexOf("/")));
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {

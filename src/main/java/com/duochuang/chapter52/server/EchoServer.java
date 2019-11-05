@@ -47,7 +47,6 @@ public class EchoServer {
                                     .addLast(new FixedLengthFrameDecoder(20))
                                     .addLast(new StringDecoder())
                                     .addLast(new EchoServerHandler());
-
                         }
                     });
             ChannelFuture f = bootstrap.bind(port).sync();
