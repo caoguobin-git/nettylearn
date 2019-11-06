@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        index</title>
+    <script src="../js/vue.js"></script>
+    <script src="../js/jquery-3.4.1.js"></script>
+</head>
+<body>
+<div id="chat">
+<input v-model="message">
+    <button @click="sendMsg()">发送</button>
+    <p v-for="item in receiveMsgs">{{item}}</p>
+</div>
+</body>
+</html>
+<script>
+    var chat =new Vue({
+        el:'#chat',
+        data:{
+            message:'',
+            socket:{},
+            receiveMsgs:[]
+        },
+        methods:{
+            connectSocket:function () {
+                this.socket=new WebSocket("ws://localhost:8090/ws");
+                this.socket.onopen=function (ev) {
+                    console.log("socket 已经连接:")
+                    console.log(ev)
+                }
+                this.socket.onmessage=function (ev) {
+                    console.log(ev)
+                    chat.receiveMsgs.push(ev.data)
+                }
+            },
+            sendMsg:function () {
+                var msg=this.message;
+                this.socket.send(msg);
+            }
+        },
+        mounted:function () {
+
+            this.connectSocket();
+        }
+    })
+</script>
